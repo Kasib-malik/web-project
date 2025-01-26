@@ -1,0 +1,219 @@
+﻿body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #F9F9F9;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #FFF;
+}
+
+.text-section {
+    width: 50%;
+    padding: 20px;
+}
+
+    .text-section h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+        color: #8A2BE2; /* Purple color */
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .text-section p {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        color: #000;
+    }
+
+    .text-section form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .text-section input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #8A2BE2;
+        border-radius: 6px;
+        color: #000;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+        .text-section input:focus {
+            border-color: #6A0DAD; /* Dark purple */
+            outline: none;
+        }
+
+    .text-section button {
+        background-color: #DDA0DD;
+        color: #fff;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+        .text-section button:hover {
+            background-color: #8A2BE2; /* Darker purple */
+        }
+
+.image-section {
+    width: 50%;
+}
+
+    .image-section img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+.footer {
+    background-color: #DDA0DD;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+}
+
+    .footer input {
+        padding: 12px;
+        margin-right: 10px;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .footer button {
+        background-color: #8A2BE2;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+.nav {
+    background-color: #DDA0DD;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+        .nav a:hover {
+            color: #8A2BE2; /* Purple */
+        }
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 350px;
+    margin: 20px auto;
+}
+
+h1 {
+    margin-bottom: 25px;
+    color: #8A2BE2;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #8A2BE2;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #000;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus {
+    border-color: #6A0DAD;
+    outline: none;
+}
+
+form input::placeholder {
+    color: #8A2BE2;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+form button {
+    padding: 12px 25px;
+    background-color: #8A2BE2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+    form button:hover {
+        background-color: #6A0DAD;
+    }
+
+.admin-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+    .admin-buttons button {
+        width: 250px;
+        padding: 12px 25px;
+        background-color: #8A2BE2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 15px 0;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+        .admin-buttons button:hover {
+            background-color: #6A0DAD;
+        }
+
+p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #000;
+    font-weight: 400;
+}
