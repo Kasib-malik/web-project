@@ -10,9 +10,10 @@ namespace busTicketsWeb.Controllers
 {
     public class HomeController : Controller
     {
+        private static List<User> users = new List<User>();
         private static List<Bus> buses = new List<Bus>
         {
-            new Bus { Id = 1, FromCity = "Lahore", ToCity = "Islamabad", TravelDate = DateTime.Parse("2025-01-30"), BusName = "Daewoo", Price = 1500, AvailableSeats = 10 },
+            new Bus { Id = 1, FromCity = "Lahore", ToCity = "Islamabad", TravelDate = DateTime.Parse("2025-02-03"), BusName = "Daewoo", Price = 1500, AvailableSeats = 10 },
             new Bus { Id = 2, FromCity = "Karachi", ToCity = "Lahore", TravelDate = DateTime.Parse("2025-01-31"), BusName = "Faisal Movers", Price = 3500, AvailableSeats = 5 },
             new Bus { Id = 3, FromCity = "Islamabad", ToCity = "Multan", TravelDate = DateTime.Parse("2025-01-30"), BusName = "Skyways", Price = 2500, AvailableSeats = 8 }
         };
@@ -46,8 +47,45 @@ namespace busTicketsWeb.Controllers
                 b.TravelDate.Date == travelDate.Date
             ).ToList();
 
-            return View("SearchResults", results);
+            return View("SearchBuses", results); 
+        }
+
+        [HttpPost]
+        public ActionResult SignUp(User user)
+        {
+            if (ModelState.IsValid) 
+            {
+                users.Add(user); 
+                ViewBag.Message = "Sign-up successful! You can now log in.";
+                return View("Login"); // Redirect to login page after sign-up
+            }
+            return View(user); // Show errors if validation fails
+        }
+
+        [HttpPost]
+        public ActionResult Login(string email, string password)
+        {
+            var user = users.FirstOrDefault(u => u.Email == email && u.Password == password);
+
+            if (user != null)
+            {
+                Session["UserEmail"] = user.Email;  
+                Session["UserName"] = user.FullName;
+                return RedirectToAction("Index"); 
+            }
+
+            ViewBag.Message = "Invalid email or password.";
+            return View();
+        }
+
+       
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }
-    
+
+
+

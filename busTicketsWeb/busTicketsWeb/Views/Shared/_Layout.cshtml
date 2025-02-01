@@ -1,23 +1,34 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/Content/style.css">
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
 </head>
 <body>
     <div class="nav">
         <div>
             <a href="@Url.Action("Index", "Home")">Home</a>
-            <a href="@Url.Action("SignUp", "Home")">Sign Up</a>
-            <a href="@Url.Action("Login", "Home")">Login</a>
-            <a href="@Url.Action("Admin", "Home")">Admin</a>
+
+            @if (Session["UserEmail"] == null)
+            {
+                <a href="@Url.Action("SignUp", "Home")">Sign Up</a>
+                <a href="@Url.Action("Login", "Home")">Login</a>
+            }
+            else
+            {
+                <span>Welcome, @Session["UserName"]</span>
+                <a href="@Url.Action("Admin", "Home")">Admin</a> <!-- Restored Admin Option -->
+                <a href="@Url.Action("Logout", "Home")">Logout</a>
+            }
         </div>
     </div>
 
-    @RenderBody()  <!-- This is where the specific page content will go -->
+    @RenderBody()
 
     <div class="footer">
         <p>Subscribe to our newsletter for the latest bus travel offers!</p>
