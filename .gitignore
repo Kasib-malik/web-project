@@ -1,0 +1,4 @@
+busTicketsWeb/packages/*
+busTicketsWeb/.vs/*
+busTicketsWeb/busTicketsWeb/obj/*
+busTicketsWeb/busTicketsWeb/bin/*

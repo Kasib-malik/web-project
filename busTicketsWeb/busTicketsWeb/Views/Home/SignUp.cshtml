@@ -1,0 +1,35 @@
+﻿
+@model busTicketsWeb.Models.User
+
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1>Sign Up</h1>
+
+    @if (ViewBag.Message != null)
+    {
+        <p style="color: green;">@ViewBag.Message</p>
+    }
+
+    @using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
+    {
+        <label>Full Name:</label>
+        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", placeholder = "Enter your full name" })
+        @Html.ValidationMessageFor(m => m.FullName, "", new { @style = "color:red;" })
+
+        <label>Email:</label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your email" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @style = "color:red;" })
+
+        <label>Password:</label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password" })
+        @Html.ValidationMessageFor(m => m.Password, "", new { @style = "color:red;" })
+
+        <br />
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    }
+</div>
+

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/style.css">
+
+
+
+<div class="container">
+    <div class="text-section">
+        <h1>Book Your Bus Tickets Easily!</h1>
+        <p>Bus ticket booking has never been easier. Enter your details below and get started!</p>
+        <form action="@Url.Action("SearchBuses", "Home")" method="post">
+            <input type="text" name="fromCity" placeholder="From (City/Stop)" required>
+            <input type="text" name="toCity" placeholder="To (City/Stop)" required>
+            <input type="date" name="travelDate" required>
+            <button type="submit">Search for Buses</button>
+        </form>
+    </div>
+    
+</div>
+
+
+
+
+

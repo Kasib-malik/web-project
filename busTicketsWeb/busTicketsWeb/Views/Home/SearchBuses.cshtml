@@ -1,0 +1,43 @@
+﻿@model List<busTicketsWeb.Models.Bus>
+@{
+    ViewBag.Title = "SearchBuses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1>Available Buses</h1>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <table border="1" style="width:100%; text-align:left; border-collapse: collapse;">
+            <tr>
+                <th>Bus Name</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Travel Date</th>
+                <th>Price</th>
+                <th>Seats Available</th>
+                <th>Action</th>
+            </tr>
+            @foreach (var bus in Model)
+            {
+                <tr>
+                    <td>@bus.BusName</td>
+                    <td>@bus.FromCity</td>
+                    <td>@bus.ToCity</td>
+                    <td>@bus.TravelDate.ToShortDateString()</td>
+                    <td>@bus.Price PKR</td>
+                    <td>@bus.AvailableSeats</td>
+                    <td>
+                        <button onclick="alert('Booking feature coming soon!');">Book Now</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>No buses found for the selected route and date.</p>
+    }
+</div>
+
