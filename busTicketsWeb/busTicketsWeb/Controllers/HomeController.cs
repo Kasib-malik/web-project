@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using busTicketsWeb.Models; // ✅ Add this to access the Bus model
-
+using busTicketsWeb.Models;
+using System.Data;
+using Dapper;
+using System.Configuration;
 
 namespace busTicketsWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private static List<User> users = new List<User>();
-        private static List<Bus> buses = new List<Bus>
-        {
-            new Bus { Id = 1, FromCity = "Lahore", ToCity = "Islamabad", TravelDate = DateTime.Parse("2025-02-03"), BusName = "Daewoo", Price = 1500, AvailableSeats = 10 },
-            new Bus { Id = 2, FromCity = "Karachi", ToCity = "Lahore", TravelDate = DateTime.Parse("2025-01-31"), BusName = "Faisal Movers", Price = 3500, AvailableSeats = 5 },
-            new Bus { Id = 3, FromCity = "Islamabad", ToCity = "Multan", TravelDate = DateTime.Parse("2025-01-30"), BusName = "Skyways", Price = 2500, AvailableSeats = 8 }
-        };
-
         public ActionResult Index()
         {
             return View();
@@ -28,64 +20,70 @@ namespace busTicketsWeb.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult SignUp(User user)
+        {
+            using (IDbConnection db = DatabaseHelper.GetConnection())
+            {
+                string query = "INSERT INTO Users (FullName, Email, PasswordHash) VALUES (@FullName, @Email, @PasswordHash)";
+                db.Execute(query, user);
+            }
+            ViewBag.Message = "Sign-up successful! You can now log in.";
+            return RedirectToAction("Login");
+        }
+
         public ActionResult Login()
         {
             return View();
         }
 
-        public ActionResult Admin()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult SearchBuses(string fromCity, string toCity, DateTime travelDate)
-        {
-            var results = buses.Where(b =>
-                b.FromCity.Equals(fromCity, StringComparison.OrdinalIgnoreCase) &&
-                b.ToCity.Equals(toCity, StringComparison.OrdinalIgnoreCase) &&
-                b.TravelDate.Date == travelDate.Date
-            ).ToList();
-
-            return View("SearchBuses", results); 
-        }
-
-        [HttpPost]
-        public ActionResult SignUp(User user)
-        {
-            if (ModelState.IsValid) 
-            {
-                users.Add(user); 
-                ViewBag.Message = "Sign-up successful! You can now log in.";
-                return View("Login"); // Redirect to login page after sign-up
-            }
-            return View(user); // Show errors if validation fails
-        }
-
         [HttpPost]
         public ActionResult Login(string email, string password)
         {
-            var user = users.FirstOrDefault(u => u.Email == email && u.Password == password);
-
-            if (user != null)
+            using (IDbConnection db = DatabaseHelper.GetConnection())
             {
-                Session["UserEmail"] = user.Email;  
-                Session["UserName"] = user.FullName;
-                return RedirectToAction("Index"); 
+                string query = "SELECT * FROM Users WHERE Email = @Email AND PasswordHash = @PasswordHash";
+                var user = db.QueryFirstOrDefault<User>(query, new { Email = email, PasswordHash = password });
+
+                if (user != null)
+                {
+                    Session["UserEmail"] = user.Email;
+                    Session["UserName"] = user.FullName;
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.Message = "Invalid email or password.";
             return View();
         }
 
-       
         public ActionResult Logout()
         {
             Session.Clear();
             return RedirectToAction("Index");
         }
+
+
+        public ActionResult TestConnection()
+        {
+            string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
+
+            if (string.IsNullOrEmpty(connString))
+            {
+                return Content("❌ Connection string is missing or invalid.");
+            }
+            else
+            {
+                return Content("✅ Connection string found: " + connString);
+            }
+        }
+
     }
+
+
+
+
+
+
 }
-
-
 
