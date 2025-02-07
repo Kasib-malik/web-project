@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using busTicketsWeb.Models;
 using System.Data;
 using Dapper;
-using System.Configuration;
 
 namespace busTicketsWeb.Controllers
 {
@@ -56,34 +55,44 @@ namespace busTicketsWeb.Controllers
             ViewBag.Message = "Invalid email or password.";
             return View();
         }
+        public ActionResult SearchBuses()
+        {
+            return View(); // Show search form
+        }
 
+        [HttpPost]
+        public ActionResult SearchBuses(string fromCity, string toCity, DateTime travelDate)
+        {
+            using (IDbConnection db = DatabaseHelper.GetConnection())
+            {
+                string query = "SELECT * FROM Buses WHERE FromCity = @FromCity AND ToCity = @ToCity AND TravelDate = @TravelDate";
+                var buses = db.Query<Bus>(query, new { FromCity = fromCity, ToCity = toCity, TravelDate = travelDate }).ToList();
+
+                return View("SearchResults", buses);
+            }
+        }
         public ActionResult Logout()
         {
             Session.Clear();
             return RedirectToAction("Index");
         }
-
-
         public ActionResult TestConnection()
         {
-            string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"]?.ConnectionString;
-
-            if (string.IsNullOrEmpty(connString))
+            try
             {
-                return Content("❌ Connection string is missing or invalid.");
+                using (IDbConnection db = DatabaseHelper.GetConnection())
+                {
+                    db.Open(); // Try opening the connection
+                    return Content("✅ Database connection successful!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Content("✅ Connection string found: " + connString);
+                return Content("❌ Database connection failed: " + ex.Message);
             }
         }
 
+
+
     }
-
-
-
-
-
-
 }
-
